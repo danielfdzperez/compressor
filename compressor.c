@@ -1,7 +1,7 @@
 /**
  * Small compression program
  *
- * Autor
+ * Author
  * 	Daniel Fernandez Perez
  *
  * Github:
@@ -321,6 +321,7 @@ void decompress(char *document){
 	fclose(rfd);
     }
     free(documentWithExtension);
+    printf("%s decompressed\n",document);
 }
 
 void startCompress(char *document){
@@ -343,6 +344,7 @@ void startCompress(char *document){
     encode(0,orderList[0]->node, 0, dictionary, &dictionaryLength);
 
     compress(dictionary, dictionaryLength, totalElements,document);
+    printf("%s generated\n",addExtension(document));
 }
 
 void printHelp(const char *program){
@@ -353,7 +355,7 @@ void printHelp(const char *program){
 	    "\n\t======="
 	    "\n\t\t -z compress"
 	    "\n\t\t -u decompress"
-	    "\n\t\t -h use"
+	    "\n\t\t -h help"
 	    "\n\n", 
 	    program, EXTENSION);
 }
@@ -364,6 +366,7 @@ int main (int argc, char* argv[]){
     char *document = NULL;
     char option;
     int help = 0;
+    int index;
 
     while( (option = getopt(argc, argv, "z:u:h") ) != -1)
 	switch(option){
@@ -377,9 +380,15 @@ int main (int argc, char* argv[]){
 	    default:
 		help = 1;
 	}
+
+    for (index = optind; index < argc; index++){
+	printf ("\n\tNon-option argument %s\n", argv[index]);
+	help = 1;
+    }
+
     if(help || argc < 2){
 	printHelp(argv[0]);
-	    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
     }
 
     return EXIT_SUCCESS;
