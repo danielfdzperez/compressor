@@ -60,6 +60,7 @@ void createListElement(List *list, char value){
 
 }
 
+//Añade extension al nombre del archivo
 char *addExtension(char *document){
     const char *extension = EXTENSION;
     char *documentWithExtension = malloc(strlen(document)+strlen(extension)+1);
@@ -72,6 +73,7 @@ char *addExtension(char *document){
     return documentWithExtension;
 }
 
+//Añade una entrada al diccionario
 int addSymbol(List *alphabet, char character){
     int addition = 0;
     if(alphabet->element == NULL){
@@ -94,6 +96,7 @@ int addSymbol(List *alphabet, char character){
     return addition;
 }
 
+//Lee un fichero sin comprimir
 void readFile(List *alphabet, int *totalElements, int *listLength, char *document){
     FILE *fd = NULL;
     if( !( fd = fopen(document,"r") ) ){
@@ -111,6 +114,7 @@ void readFile(List *alphabet, int *totalElements, int *listLength, char *documen
     }
 }
 
+//Inserta elemento en la lista
 void insert(List *list, NodePair **orderList){
     int i;
     for(i = 0; list->next != NULL; list = list->next,i++){
@@ -119,6 +123,7 @@ void insert(List *list, NodePair **orderList){
     orderList[i] = list->element;
 }
 
+//Obtiene las probabilidades
 void probability(NodePair **list, int listLength, int total){
     int i;
     for(i = 0; i < listLength; i++){
@@ -126,6 +131,7 @@ void probability(NodePair **list, int listLength, int total){
     }
 }
 
+//Ordena de mayor a menor
 void arrange(NodePair **list, int elements){
     int i,j;
     for(i=0; i < elements; i++)
@@ -180,6 +186,7 @@ void encode(int code, Node *node, int sift, Pair **dictionary, int *dictionaryIn
 
 }
 
+//Va insertando el codigo del caracter leido
 void getCode(char character, unsigned int *code, int *indexCode, Pair **dictionary, int dictionaryLength, FILE *wfd){
     int find = 0;
     int i;
@@ -206,6 +213,7 @@ void getCode(char character, unsigned int *code, int *indexCode, Pair **dictiona
 
 }
 
+//Comprime
 void compress(Pair **dictionary, int dictionaryLength, int totalElements, char *document){
     FILE *rfd = NULL;
     FILE *wfd = NULL;
@@ -235,6 +243,7 @@ void compress(Pair **dictionary, int dictionaryLength, int totalElements, char *
     fclose(wfd);
 }
 
+//Genera el arbol para los codigos de Huffman a partir de un diccionario
 void formTree(Node *node, Pair *dictionaryElement, unsigned int index){
     if(index >= dictionaryElement->maxIndex){
 	node->value = dictionaryElement->value;
@@ -258,6 +267,7 @@ void formTree(Node *node, Pair *dictionaryElement, unsigned int index){
     }
 }
 
+//Obtiene el caracter a partir de un codigo
 char decode(Node *node, unsigned int *code, unsigned int *codeIndex, FILE *fd){
     if(node->rightSon == NULL && node->leftSon == NULL)
 	return node->value;
@@ -278,7 +288,7 @@ char decode(Node *node, unsigned int *code, unsigned int *codeIndex, FILE *fd){
     return character;
 }
 
-
+//Descomprime un documento
 void decompress(char *document){
     int totalElements;
     int dictionaryLength;
@@ -324,6 +334,7 @@ void decompress(char *document){
     printf("%s decompressed\n",document);
 }
 
+//Comprime un documento
 void startCompress(char *document){
     List *alphabet = (List*) malloc(sizeof(List));
     alphabet->next = NULL;
@@ -359,8 +370,6 @@ void printHelp(const char *program){
 	    "\n\n", 
 	    program, EXTENSION);
 }
-
-
 
 int main (int argc, char* argv[]){
     char *document = NULL;
