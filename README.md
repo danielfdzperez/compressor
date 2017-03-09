@@ -1,2 +1,2 @@
 # compressor
-Small simple compressor program write in c
+Small simple compression program written in c
